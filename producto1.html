@@ -4,213 +4,281 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kirkland Signature Calcio + Vitamina D3 - Carrusel</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
+    :root {
+      --primary:  #e31837;               /* Rojo Costco */
+      --bg:       #f9fbfd;
+      --card:     #ffffff;
+      --txt:      #333333;
+      --shadow:   rgba(0,0,0,0.1);
+      --radius:   8px;
+      --fade-speed: 0.5s;
+      --dot:      12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-family: 'Roboto', sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+    }
+
     body {
-      background-color: #f0f8ff;
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      line-height: 1.6;
-      color: #333;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
     }
-    h1 {
-      color: #2a7ae2;
-      border-bottom: 2px solid #2a7ae2;
-      padding-bottom: 5px;
-    }
+
     .container {
-      max-width: 700px;
-      margin: auto;
-      padding: 10px;
-      background: #ffffff;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 800px;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px var(--shadow);
+      overflow: hidden;
     }
-    /* Estilos del carrusel */
+
+    header {
+      background: var(--primary);
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      color: #fff;
+      font-size: 1.75rem;
+      font-weight: 500;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    /* ───────────────────── Carrusel (Fade) ───────────────────── */
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;              /* mantiene relación 4:3 */
+      overflow: hidden;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 8px var(--shadow);
+      margin-bottom: 24px;
+    }
+
     .carousel {
       position: relative;
-      overflow: hidden;
       width: 100%;
-      height: 0;
-      padding-top: 75%; /* Relación de aspecto 4:3 */
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-      border: 1px solid #ccc;
+      height: 100%;
     }
+
     .carousel img {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: contain;              /* sin recortes */
+      background: var(--bg);
       opacity: 0;
-      transition: opacity 0.5s ease-in-out;
+      transition: opacity var(--fade-speed) ease-in-out;
     }
-    .carousel img.visible {
+
+    .carousel img.active {
       opacity: 1;
     }
-    .carousel button {
+
+    /* Controles anterior / siguiente */
+    .controls {
       position: absolute;
       top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
       transform: translateY(-50%);
-      background: rgba(0,0,0,0.5);
+      pointer-events: none;
+    }
+
+    .controls button {
+      background: rgba(227,24,55,0.7);
       border: none;
       color: #fff;
-      font-size: 1.5rem;
-      padding: 8px 12px;
+      font-size: 1.6rem;
+      padding: 8px 16px;
+      border-radius: var(--radius);
       cursor: pointer;
+      pointer-events: all;
+      transition: background 0.3s;
     }
-    .carousel button:hover {
-      background: rgba(0,0,0,0.7);
+
+    .controls button:hover {
+      background: rgba(227,24,55,0.9);
     }
-    .carousel .prev {
-      left: 10px;
-    }
-    .carousel .next {
-      right: 10px;
-    }
-    /* Indicadores (dots) */
+
+    /* Indicadores */
     .indicators {
-      text-align: center;
-      margin-top: 8px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
     }
-    .indicators span {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      margin: 0 4px;
-      background-color: #ccc;
+
+    .indicator {
+      width: var(--dot);
+      height: var(--dot);
+      background: #ccc;
       border-radius: 50%;
       cursor: pointer;
+      transition: background 0.3s;
     }
-    .indicators span.active {
-      background-color: #2a7ae2;
+
+    .indicator.active {
+      background: var(--primary);
     }
-    /* Detalles debajo del carrusel */
+
+    /* ───────────────────── Detalles ───────────────────── */
     .detalle {
-      margin-top: 15px;
+      display: grid;
+      gap: 16px;
     }
-    .detalle li {
-      margin-bottom: 8px;
+
+    .detalle ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .detalle li ul {
+      margin-top: 4px;
+      padding-left: 18px;
+    }
+
+    .detalle li ul li {
+      list-style: disc;
+    }
+
+    /* Adaptaciones en pantallas grandes */
+    @media (min-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Kirkland Signature Calcio + Vitamina D3 Frasco con 180 Tabletas</h1>
+    <header>
+      <h1>Kirkland Signature Calcio + Vitamina D3</h1>
+    </header>
 
-    <!-- Carrusel de imágenes -->
-    <div class="carousel" id="carousel">
-      <!-- Cada imagen lleva la clase "carousel-image" y solo una tendrá la clase "visible" al cargar -->
-      <img
-        src="https://www.costco.com.mx/medias/sys_master/products/h64/h28/116411945615390.webp"
-        alt="Frasco 180 tabletas - Vista frontal"
-        class="carousel-image visible"
-      />
-      <img
-        src="https://www.costco.com.mx/medias/sys_master/products/hee/hdd/116411945877534.webp"
-        alt="Etiqueta Kirkland Signature - Detalle ingredientes"
-        class="carousel-image"
-      />
-      <img
-        src="https://www.costco.com.mx/medias/sys_master/products/h08/hc6/116411945222174.webp"
-        alt="Tabletas Kirkland Signature - Vista interna"
-        class="carousel-image"
-      />
-      <!-- Botones anterior y siguiente -->
-      <button class="prev" id="prevBtn" aria-label="Imagen anterior">&lt;</button>
-      <button class="next" id="nextBtn" aria-label="Imagen siguiente">&gt;</button>
-    </div>
+    <main>
+      <!-- Carrusel -->
+      <div class="carousel-wrapper">
+        <div class="carousel" id="carousel">
+          <img
+            src="https://www.costco.com.mx/medias/sys_master/products/h64/h28/116411945615390.webp"
+            alt="Frasco 180 tabletas - Vista frontal"
+            class="active"
+          />
+          <img
+            src="https://www.costco.com.mx/medias/sys_master/products/hee/hdd/116411945877534.webp"
+            alt="Etiqueta Kirkland Signature - Detalle ingredientes"
+          />
+          <img
+            src="https://www.costco.com.mx/medias/sys_master/products/h08/hc6/116411945222174.webp"
+            alt="Tabletas Kirkland Signature - Vista interna"
+          />
+        </div>
+        <div class="controls">
+          <button id="prevBtn" aria-label="Anterior">‹</button>
+          <button id="nextBtn" aria-label="Siguiente">›</button>
+        </div>
+      </div>
 
-    <!-- Indicadores (puntos) del carrusel -->
-    <div class="indicators" id="indicators">
-      <span data-index="0" class="active"></span>
-      <span data-index="1"></span>
-      <span data-index="2"></span>
-    </div>
+      <!-- Indicadores -->
+      <div class="indicators" id="indicators">
+        <div class="indicator active" data-index="0" aria-label="Imagen 1"></div>
+        <div class="indicator"        data-index="1" aria-label="Imagen 2"></div>
+        <div class="indicator"        data-index="2" aria-label="Imagen 3"></div>
+      </div>
 
-    <!-- Información del producto -->
-    <p class="detalle">
-      <strong>Descripción:</strong>
-      Suplemento nutricional en tabletas, formulado con calcio y vitamina D3 para apoyar la salud ósea. Cada frasco contiene 180 tabletas de liberación inmediata.
-    </p>
-    <ul class="detalle">
-      <li><strong>Presentación:</strong> Frasco con 180 tabletas masticables.</li>
-      <li><strong>Ingrediente Activo por tableta:</strong>
+      <br> <!-- SALTO DE LÍNEA ENTRE CARRUSEL E INICIO DE DESCRIPCIÓN -->
+
+      <!-- Descripción del producto -->
+      <section class="detalle">
+        <p>
+          <strong>Descripción:</strong> Suplemento nutricional con calcio y vitamina D3
+          para apoyar la salud ósea. Frasco con 180 tabletas.
+        </p>
         <ul>
-          <li>Carbonato de Calcio (Proporciona 240 mg de calcio elemental).</li>
-          <li>Vitamina D3 (Colecalciferol) 25 µg (1 000 UI).</li>
+          <li><strong>Presentación:</strong> 180 tabletas masticables.</li>
+          <li><strong>Ingrediente activo por tableta:</strong>
+            <ul>
+              <li>Carbonato de calcio (240 mg de calcio elemental).</li>
+              <li>Vitamina D3 (25 µg / 1 000 UI).</li>
+            </ul>
+          </li>
+          <li><strong>Uso recomendado:</strong> 1 tableta dos veces al día con alimento.</li>
+          <li><strong>Beneficios:</strong>
+            <ul>
+              <li>Mantiene huesos y dientes fuertes.</li>
+              <li>Favorece la absorción de calcio.</li>
+              <li>Contribuye al sistema inmunológico.</li>
+            </ul>
+          </li>
+          <li><strong>Advertencias:</strong>
+            <ul>
+              <li>No exceder la dosis.</li>
+              <li>Mantener fuera del alcance de los niños.</li>
+              <li>Consultar al médico si toma otros suplementos.</li>
+              <li>Puede contener trazas de gluten o soja.</li>
+            </ul>
+          </li>
+          <li><strong>Proveedor:</strong> Costco México.</li>
+          <li><strong>País de origen:</strong> Estados Unidos.</li>
         </ul>
-      </li>
-      <li>
-        <strong>Uso recomendado:</strong> Tomar 1 tableta dos veces al día (mañana y noche) con alimentos y un vaso de agua, o según indicación médica.
-      </li>
-      <li>
-        <strong>Beneficios:</strong>
-        <ul>
-          <li>Ayuda a mantener huesos y dientes fuertes.</li>
-          <li>Favorece la absorción de calcio en el organismo.</li>
-          <li>Contribuye a la función normal del sistema inmunológico.</li>
-        </ul>
-      </li>
-      <li>
-        <strong>Advertencias:</strong>
-        <ul>
-          <li>No exceder la dosis recomendada.</li>
-          <li>Mantener fuera del alcance de los niños.</li>
-          <li>Si se ingieren otros medicamentos o suplementos, consultar a un profesional de la salud.</li>
-          <li>Puede contener trazas de gluten y soja.</li>
-        </ul>
-      </li>
-      <li><strong>Proveedor:</strong> Costco México.</li>
-      <li><strong>País de origen:</strong> Estados Unidos.</li>
-    </ul>
+      </section>
+    </main>
   </div>
 
+  <!-- ───────────── JavaScript carrusel ───────────── -->
   <script>
-    // JavaScript para controlar el carrusel
-    (function() {
-      const images = document.querySelectorAll('.carousel-image');
-      const indicators = document.querySelectorAll('.indicators span');
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-      let currentIndex = 0;
-      const totalImages = images.length;
+    (function () {
+      const carouselImages = document.querySelectorAll('#carousel img');
+      const dots           = document.querySelectorAll('.indicator');
+      const prevBtn        = document.getElementById('prevBtn');
+      const nextBtn        = document.getElementById('nextBtn');
+      const total          = carouselImages.length;
+      let index = 0;
 
-      // Función para mostrar la imagen en currentIndex
-      function showImage(index) {
-        // Asegurar que index quede dentro de rango
-        if (index < 0) index = totalImages - 1;
-        if (index >= totalImages) index = 0;
-        // Ocultar todas y desactivar todos los indicadores
-        images.forEach(img => img.classList.remove('visible'));
-        indicators.forEach(dot => dot.classList.remove('active'));
-        // Mostrar la imagen seleccionada y activar su indicador
-        images[index].classList.add('visible');
-        indicators[index].classList.add('active');
-        currentIndex = index;
-      }
+      const showImage = (i) => {
+        // Ciclar índices
+        if (i < 0) i = total - 1;
+        if (i >= total) i = 0;
+        // Ocultar todas, remover clase .active
+        carouselImages.forEach(img => img.classList.remove('active'));
+        dots.forEach(d => d.classList.remove('active'));
+        // Mostrar la imagen i
+        carouselImages[i].classList.add('active');
+        dots[i].classList.add('active');
+        index = i;
+      };
 
-      // Al hacer clic en “anterior”
-      prevBtn.addEventListener('click', function() {
-        showImage(currentIndex - 1);
-      });
+      prevBtn.onclick = () => showImage(index - 1);
+      nextBtn.onclick = () => showImage(index + 1);
+      dots.forEach(d => d.onclick = () => showImage(+d.dataset.index));
 
-      // Al hacer clic en “siguiente”
-      nextBtn.addEventListener('click', function() {
-        showImage(currentIndex + 1);
-      });
-
-      // Al hacer clic en cualquiera de los “dots”
-      indicators.forEach(dot => {
-        dot.addEventListener('click', function() {
-          const i = parseInt(this.getAttribute('data-index'), 10);
-          showImage(i);
-        });
-      });
-
-      // (Opcional) Avanzar automáticamente cada 5 segundos
-      setInterval(function() {
-        showImage(currentIndex + 1);
-      }, 5000);
+      setInterval(() => showImage(index + 1), 5000); // auto-avance cada 5s
     })();
   </script>
 </body>
